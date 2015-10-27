@@ -1,17 +1,20 @@
 (function(){
-var game = new Phaser.Game(1000, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
 	game.load.spritesheet('pokeBall', "./assets/pokeball.png");
-	game.load.spritesheet('blueBall', "./assets/balls.png", 350,350);
-	game.load.spritesheet('ultraBall', "./assets/ultraball.png", 350,350);
-	game.load.spritesheet('pikachu', "./assets/pikachu.png");
+	game.load.spritesheet('blueBall', "./assets/balls.png", 350,320);
+	game.load.spritesheet('ultraBall', "./assets/ultraball.png", 350,320);
+	
+    game.load.spritesheet('pikachu', "./assets/pikachu.png");
 	game.load.image('background', "./assets/background.jpg")
 
 }
 	var pokeBall;
 	var ultraBall;
 	var pikachu;
+    var highScore;
+    var timer;
 function create() {
 
 	background = game.add.sprite(0, 0, 'background')
@@ -35,7 +38,7 @@ function create() {
     blueBall = game.add.group()
     blueBall.enableBody = true;
     var myBlueBall = setInterval(function(){
-    blueBall = game.add.sprite(0,0, "blueBall")
+    blueBall = game.add.sprite(0,300, "blueBall")
     game.physics.enable(blueBall, Phaser.Physics.ARCADE);
     blueBall.body.velocity.setTo(Math.random()*500, Math.random()*500);
     blueBall.scale.setTo(.4, .4)
@@ -61,26 +64,58 @@ function create() {
     pikachu.scale.setTo(1.5,1.5)
     game.physics.arcade.enable(pikachu);
     pikachu.body.allowRotation = true;
-}	
 
+    //highScore
+    highScoreText = game.add.text(0, 0, "High Score:0")
+    
+    //timer
+    timerText = game.add.text(0, 25, "Current Score:0")
+
+}	
+var highScore = 0;
+var secondsAlive = 0;
 function update() {
 	pikachu.rotation = game.physics.arcade.moveToPointer(pikachu, 60, game.input.activePointer, 500);
-	game.physics.arcade.overlap(pokeBall, pikachu, touchPikachu, null, this);
+	if(game.input.activePointer.isDown){
+        console.log("it worked")
+    }
+    
+    if(pikachu.alive){
+        setInterval(function(){
+            secondsAlive++
+            timerText.text= "Current Score: "+secondsAlive
+            
+        },1000)
+    } else {
+        secondsAlive = 0
+        timerText.text = "Current Score: 0"
+    }
+
+    game.physics.arcade.overlap(pokeBall, pikachu, touchPikachu, null, this);
 	game.physics.arcade.overlap(blueBall, pikachu, touchPikachu, null, this);
 	game.physics.arcade.overlap(ultraBall, pikachu, touchPikachu, null, this);
 }
 
 
 function touchPikachu(pokeBall, pikachu){
-	pikachu.kill()
+	pikachu.kill();
+    setTimeout(function(){
+        pikachu.revive()
+    },2000);
 }
 
 function touchPikachu(blueBall, pikachu){
-	pikachu.kill()
+	pikachu.kill();
+    setTimeout(function(){
+        pikachu.revive()
+    },2000);
 }
 
 function touchPikachu(ultraBall, pikachu){
-	pikachu.kill()
+	pikachu.kill();
+    setTimeout(function(){
+        pikachu.revive()
+    },2000);
 }
 
 })()//end of entire callback
