@@ -4,12 +4,16 @@ var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', { preload: preload, c
 function preload() {
 	game.load.spritesheet('pokeBall', "./assets/pokeball.png");
 	game.load.spritesheet('blueBall', "./assets/balls.png", 350,320);
-	game.load.spritesheet('ultraBall', "./assets/ultraball.png", 350,320);
+    game.load.spritesheet('ultraBall', "./assets/ultraball.png", 350,320);
 	
+    game.load.spritesheet('rareCandy', "./assets/rareCandy.png", 350,320);
     game.load.spritesheet('pikachu', "./assets/pikachu.png");
 	game.load.image('background', "./assets/background.jpg")
 
 }
+
+
+
 	var pokeBall;
 	var ultraBall;
 	var pikachu;
@@ -38,20 +42,21 @@ function create() {
     blueBall = game.add.group()
     blueBall.enableBody = true;
     var myBlueBall = setInterval(function(){
-    blueBall = game.add.sprite(0,300, "blueBall")
-    game.physics.enable(blueBall, Phaser.Physics.ARCADE);
-    blueBall.body.velocity.setTo(Math.random()*500, Math.random()*500);
-    blueBall.scale.setTo(.4, .4)
+        blueBall = game.add.sprite(0,300, "blueBall")
+        game.physics.enable(blueBall, Phaser.Physics.ARCADE);
+        blueBall.body.velocity.setTo(Math.random()*500, Math.random()*500);
+        blueBall.scale.setTo(.4, .4)
     },5000)
 
     //Random Ultra ball
     ultraBall = game.add.group()
     ultraBall.enableBody = true;
+    
     var myultraBall = setInterval(function(){
-    ultraBall = game.add.sprite(game.world.width - 1,game.world.height - 1, "ultraBall")
-    game.physics.enable(ultraBall, Phaser.Physics.ARCADE);
-    ultraBall.body.velocity.setTo(Math.random()* -500, Math.random()*-500);
-    ultraBall.scale.setTo(.4, .4)
+        ultraBall = game.add.sprite(game.world.width - 1,game.world.height - 1, "ultraBall")
+        game.physics.enable(ultraBall, Phaser.Physics.ARCADE);
+        ultraBall.body.velocity.setTo(Math.random()* -500, Math.random()*-500);
+        ultraBall.scale.setTo(.4, .4)
     },5000)
 
     //random Mast
@@ -65,6 +70,9 @@ function create() {
     game.physics.arcade.enable(pikachu);
     pikachu.body.allowRotation = true;
 
+    //rareCandy
+    rareCandy = game.add.sprite(Math.random()*1150, Math.random()*550, 'rareCandy').scale.setTo(0.5,0.5)
+
     //highScore
     highScoreText = game.add.text(0, 0, "High Score:0")
     
@@ -72,19 +80,28 @@ function create() {
     timerText = game.add.text(0, 25, "Current Score:0")
 
 }	
-var highScore = 0;
+
+
+
+
+var leaderScore = 0 
 var secondsAlive = 0;
 function update() {
 	pikachu.rotation = game.physics.arcade.moveToPointer(pikachu, 60, game.input.activePointer, 500);
-	if(game.input.activePointer.isDown){
-        console.log("it worked")
-    }
+	
+    //maybe try implementig a boost or sound for a click
+    // if(game.input.activePointer.isDown){
+    //        console.log("it worked")
+    //    }
     
     if(pikachu.alive){
         setInterval(function(){
             secondsAlive++
             timerText.text= "Current Score: "+secondsAlive
-            
+            if(secondsAlive > leaderScore){
+                leaderScore = secondsAlive
+                highScoreText.text = "High Score: "+ leaderScore
+            }
         },1000)
     } else {
         secondsAlive = 0
