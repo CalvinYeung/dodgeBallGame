@@ -1,0 +1,35 @@
+#pokedexApp {
+	position: fixed;
+	background:url("/assets/pokedexBackground.png");
+	background-size: 100%,100%;
+	background-repeat: no-repeat;
+	background-position:10% 75%;
+	height: 100%;
+	width: 100%;
+}
+
+#game {
+
+}
+
+#pokedexFormAndInfo{
+	background-color: blue;
+}
+
+#pokedexForm {
+	position: relative;
+	float: right;
+	
+	top: -30%;
+}
+
+#pokedexInfo {
+	position: relative;
+	float: right;
+
+	padding-left: 5%;
+	margin: auto;
+	max-height: 68%;
+	max-width: 37.5%;
+}
+

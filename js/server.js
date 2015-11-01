@@ -1,5 +1,6 @@
 (function(){
-var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
+var game = new Phaser.Game("100%", 700, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
 	game.load.spritesheet('pokeBall', "./assets/pokeball.png");
@@ -11,58 +12,39 @@ function preload() {
 	game.load.image('background', "./assets/background.jpg")
 
 }
-
-
-
 	var pokeBall;
 	var ultraBall;
-	var pikachu;
+	var blueBall;
+    var pikachu;
     var highScore;
     var timer;
+    var rareCandy;
 function create() {
-
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	background = game.add.sprite(0, 0, 'background')
 	background.scale.setTo(3.3, 2.5)
 
 
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 
-	//PokeBall
+    game.time.events.repeat(Phaser.Timer.SECOND *2.5,
+        1000, createBlueBall,this);
+
+    game.time.events.repeat(Phaser.Timer.SECOND *3.5,
+        1000, createUltraBall,this);
+
+	// PokeBall
 	pokeBall = game.add.group()
     pokeBall.enableBody = true;
-	pokeBall = game.add.sprite(500,10, "pokeBall");
+	pokeBall = game.add.sprite(50,100, "pokeBall");
 	game.physics.enable(pokeBall, Phaser.Physics.ARCADE);
-	pokeBall.body.velocity.setTo(500, 500);
+	pokeBall.body.velocity.setTo(550, 500);
     pokeBall.body.collideWorldBounds = true;
     pokeBall.body.bounce.setTo(1, 1);
     pokeBall.scale.setTo(.3, .3)
 
-
-    //Random blue ball
-    blueBall = game.add.group()
-    blueBall.enableBody = true;
-    var myBlueBall = setInterval(function(){
-        blueBall = game.add.sprite(0,300, "blueBall")
-        game.physics.enable(blueBall, Phaser.Physics.ARCADE);
-        blueBall.body.velocity.setTo(Math.random()*500, Math.random()*500);
-        blueBall.scale.setTo(.4, .4)
-    },5000)
-
-    //Random Ultra ball
-    ultraBall = game.add.group()
-    ultraBall.enableBody = true;
-    
-    var myultraBall = setInterval(function(){
-        ultraBall = game.add.sprite(game.world.width - 1,game.world.height - 1, "ultraBall")
-        game.physics.enable(ultraBall, Phaser.Physics.ARCADE);
-        ultraBall.body.velocity.setTo(Math.random()* -500, Math.random()*-500);
-        ultraBall.scale.setTo(.4, .4)
-    },5000)
-
-    //random Mast
-
     //Pikachu Cursor Player
-    pikachu = game.add.sprite(400,300, 'pikachu');
+    pikachu = game.add.sprite(800,200, 'pikachu');
     game.physics.enable(pikachu, Phaser.Physics.ARCADE);
     pikachu.body.collideWorldBounds = true;
     pikachu.anchor.setTo(0.5,0.5)
@@ -78,16 +60,42 @@ function create() {
     
     //timer
     timerText = game.add.text(0, 25, "Current Score:0")
+    
 
-}	
+}
 
+function gofull() {
 
+    if (game.scale.isFullScreen)
+    {
+        game.scale.stopFullScreen();
+    }
+    else
+    {
+        game.scale.startFullScreen(false);
+    }
+}
+
+function createBlueBall(){
+     blueBall = game.add.sprite(0,300, "blueBall")
+        game.physics.enable(blueBall, Phaser.Physics.ARCADE);
+        blueBall.body.velocity.setTo((Math.random() * 1000) + 850, Math.random()*500);
+        blueBall.scale.setTo(.4, .4)
+}
+
+function createUltraBall(){
+     ultraBall = game.add.sprite(game.world.width - 1,game.world.height - 1, "ultraBall")
+        game.physics.enable(ultraBall, Phaser.Physics.ARCADE);
+        ultraBall.body.velocity.setTo((Math.random() * -1000) + -850, Math.random()*-800);
+        ultraBall.scale.setTo(.4, .4)
+}
 
 
 var leaderScore = 0 
 var secondsAlive = 0;
 function update() {
-	pikachu.rotation = game.physics.arcade.moveToPointer(pikachu, 60, game.input.activePointer, 500);
+    game.input.onDown.add(gofull, this);
+	pikachu.rotation = game.physics.arcade.moveToPointer(pikachu, 0, game.input.activePointer, 150);
 	
     //maybe try implementig a boost or sound for a click
     // if(game.input.activePointer.isDown){
