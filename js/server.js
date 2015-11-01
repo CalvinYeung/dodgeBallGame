@@ -23,7 +23,10 @@ function create() {
     game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 	background = game.add.sprite(0, 0, 'background')
 	background.scale.setTo(3.3, 2.5)
-
+    //highScore
+    highScoreText = game.add.text(0, 0, "High Score:0")
+    //timer
+    timerText = game.add.text(0, 25, "Current Score:0")
 
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -53,14 +56,11 @@ function create() {
     pikachu.body.allowRotation = true;
 
     //rareCandy
-    rareCandy = game.add.sprite(Math.random()*1150, Math.random()*550, 'rareCandy').scale.setTo(0.5,0.5)
-
-    //highScore
-    highScoreText = game.add.text(0, 0, "High Score:0")
-    
-    //timer
-    timerText = game.add.text(0, 25, "Current Score:0")
-    
+    rareCandy = game.add.group();
+    rareCandy.enableBody = true; 
+    rareCandy = game.add.sprite(Math.random()*1150, Math.random()*550, 'rareCandy')
+    rareCandy.scale.setTo(0.5,0.5)
+    game.physics.enable(rareCandy, Phaser.Physics.ARCADE);
 
 }
 
@@ -101,7 +101,13 @@ function update() {
     // if(game.input.activePointer.isDown){
     //        console.log("it worked")
     //    }
-    
+    if(!rareCandy.alive){
+        rareCandy = game.add.group();
+    rareCandy.enableBody = true; 
+    rareCandy = game.add.sprite(Math.random()*1150, Math.random()*550, 'rareCandy')
+    rareCandy.scale.setTo(0.5,0.5)
+    game.physics.enable(rareCandy, Phaser.Physics.ARCADE);
+    }
     if(pikachu.alive){
         setInterval(function(){
             secondsAlive++
@@ -118,9 +124,17 @@ function update() {
 
     game.physics.arcade.overlap(pokeBall, pikachu, touchPikachu, null, this);
 	game.physics.arcade.overlap(blueBall, pikachu, touchPikachu, null, this);
-	game.physics.arcade.overlap(ultraBall, pikachu, touchPikachu, null, this);
+    game.physics.arcade.overlap(ultraBall, pikachu, touchPikachu, null, this);
+	game.physics.arcade.overlap(pikachu, rareCandy, pikachuEatsRareCandy, null, this);
 }
 
+
+
+function pikachuEatsRareCandy(pikachu, rareCandy){
+    rareCandy.kill();
+    secondsAlive += 1000
+
+}
 
 function touchPikachu(pokeBall, pikachu){
 	pikachu.kill();
