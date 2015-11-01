@@ -77,16 +77,16 @@ function gofull() {
 }
 
 function createBlueBall(){
-     blueBall = game.add.sprite(0,300, "blueBall")
+     blueBall = game.add.sprite(0,200, "blueBall")
         game.physics.enable(blueBall, Phaser.Physics.ARCADE);
-        blueBall.body.velocity.setTo((Math.random() * 1000) + 850, Math.random()*500);
+        blueBall.body.velocity.setTo((Math.random() * 900) + 850, (Math.random() * 200) + 100);
         blueBall.scale.setTo(.4, .4)
 }
 
 function createUltraBall(){
-     ultraBall = game.add.sprite(game.world.width - 1,game.world.height - 1, "ultraBall")
+     ultraBall = game.add.sprite(game.world.width - 1,game.world.height - 300, "ultraBall")
         game.physics.enable(ultraBall, Phaser.Physics.ARCADE);
-        ultraBall.body.velocity.setTo((Math.random() * -1000) + -850, Math.random()*-800);
+        ultraBall.body.velocity.setTo((Math.random() * -900) + -850, Math.random()*-800);
         ultraBall.scale.setTo(.4, .4)
 }
 

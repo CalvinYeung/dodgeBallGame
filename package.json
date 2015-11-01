@@ -2,7 +2,7 @@
   "name": "dodgeballgame",
   "version": "1.0.0",
   "description": "A dodge the ball type game using phaser and socket",
-  "main": "./js/server.js",
+  "main": "/js/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
