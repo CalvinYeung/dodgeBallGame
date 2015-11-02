@@ -1,12 +1,13 @@
 (function(){
 
+
 var game = new Phaser.Game("100%","100%", Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
 	game.load.spritesheet('pokeBall', "./assets/pokeball.png");
 	game.load.spritesheet('blueBall', "./assets/balls.png", 350,320);
     game.load.spritesheet('ultraBall', "./assets/ultraBall.png", 350,320);
-	
+
     game.load.spritesheet('rareCandy', "./assets/rareCandy.png", 350,320);
     game.load.spritesheet('pikachu', "./assets/pikachu.png");
 	game.load.image('background', "./assets/background.jpg")
@@ -57,7 +58,7 @@ function create() {
 
     //rareCandy
     rareCandy = game.add.group();
-    rareCandy.enableBody = true; 
+    rareCandy.enableBody = true;
     rareCandy = game.add.sprite(Math.random()*1150, Math.random()*550, 'rareCandy')
     rareCandy.scale.setTo(0.5,0.5)
     game.physics.enable(rareCandy, Phaser.Physics.ARCADE);
@@ -91,19 +92,19 @@ function createUltraBall(){
 }
 
 
-var leaderScore = 0 
+var leaderScore = 0
 var secondsAlive = 0;
 function update() {
     game.input.onDown.add(gofull, this);
 	pikachu.rotation = game.physics.arcade.moveToPointer(pikachu, 0, game.input.activePointer, 150);
-	
+
     //maybe try implementig a boost or sound for a click
     // if(game.input.activePointer.isDown){
     //        console.log("it worked")
     //    }
     if(!rareCandy.alive){
         rareCandy = game.add.group();
-    rareCandy.enableBody = true; 
+    rareCandy.enableBody = true;
     rareCandy = game.add.sprite(Math.random()*1150, Math.random()*550, 'rareCandy')
     rareCandy.scale.setTo(0.5,0.5)
     game.physics.enable(rareCandy, Phaser.Physics.ARCADE);
