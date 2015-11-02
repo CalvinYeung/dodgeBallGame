@@ -1,11 +1,11 @@
 (function(){
 
-var game = new Phaser.Game("100%", 700, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game("100%","100%", Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
 	game.load.spritesheet('pokeBall', "./assets/pokeball.png");
 	game.load.spritesheet('blueBall', "./assets/balls.png", 350,320);
-    game.load.spritesheet('ultraBall', "./assets/ultraball.png", 350,320);
+    game.load.spritesheet('ultraball', "./assets/ultraball.png", 350,320);
 	
     game.load.spritesheet('rareCandy', "./assets/rareCandy.png", 350,320);
     game.load.spritesheet('pikachu', "./assets/pikachu.png");
@@ -13,7 +13,7 @@ function preload() {
 
 }
 	var pokeBall;
-	var ultraBall;
+	var ultraball;
 	var blueBall;
     var pikachu;
     var highScore;
@@ -34,7 +34,7 @@ function create() {
         1000, createBlueBall,this);
 
     game.time.events.repeat(Phaser.Timer.SECOND *3.5,
-        1000, createUltraBall,this);
+        1000, createUltraball,this);
 
 	// PokeBall
 	pokeBall = game.add.group()
@@ -83,11 +83,11 @@ function createBlueBall(){
         blueBall.scale.setTo(.4, .4)
 }
 
-function createUltraBall(){
-     ultraBall = game.add.sprite(game.world.width - 1,game.world.height - 300, "ultraBall")
-        game.physics.enable(ultraBall, Phaser.Physics.ARCADE);
-        ultraBall.body.velocity.setTo((Math.random() * -900) + -850, Math.random()*-800);
-        ultraBall.scale.setTo(.4, .4)
+function createUltraball(){
+     ultraball = game.add.sprite(game.world.width - 1,game.world.height - 300, "ultraball")
+        game.physics.enable(ultraball, Phaser.Physics.ARCADE);
+        ultraball.body.velocity.setTo((Math.random() * -900) + -850, Math.random()*-800);
+        ultraball.scale.setTo(.4, .4)
 }
 
 
@@ -124,7 +124,7 @@ function update() {
 
     game.physics.arcade.overlap(pokeBall, pikachu, touchPikachu, null, this);
 	game.physics.arcade.overlap(blueBall, pikachu, touchPikachu, null, this);
-    game.physics.arcade.overlap(ultraBall, pikachu, touchPikachu, null, this);
+    game.physics.arcade.overlap(ultraball, pikachu, touchPikachu, null, this);
 	game.physics.arcade.overlap(pikachu, rareCandy, pikachuEatsRareCandy, null, this);
 }
 
@@ -150,7 +150,7 @@ function touchPikachu(blueBall, pikachu){
     },2000);
 }
 
-function touchPikachu(ultraBall, pikachu){
+function touchPikachu(ultraball, pikachu){
 	pikachu.kill();
     setTimeout(function(){
         pikachu.revive()
