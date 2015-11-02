@@ -1,6 +1,6 @@
 (function(){
 
-var game = new Phaser.Game("100%", 700, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game("100%", "100%", Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
 	game.load.spritesheet('pokeBall', "./assets/pokeball.png");
